@@ -6,11 +6,32 @@ import org.springframework.stereotype.Component;
 public class Utils {
 
 
-    public void isObjectInvalid(Object obj){
+    public boolean isObjectInvalid(Object obj){
 
-        if(obj == null){
-            throw new NullPointerException();
+        if(obj == null || obj.toString().isEmpty()){
+            return true;
         }
+
+        return false;
+    }
+
+    public boolean isInvalidLenght_str(String valor, int max_size,int min_size){
+           
+        if(valor.trim().length() > max_size || valor.trim().length()  < min_size){
+            return true;
+        }
+        
+        return false;
+    }
+
+    public boolean isInvalidEmail(String email){
+
+        return !email.contains("@") || !email.contains(".");
+    }
+
+    public boolean isNull(Object obj){
+
+        return obj == null;
     }
 
 }

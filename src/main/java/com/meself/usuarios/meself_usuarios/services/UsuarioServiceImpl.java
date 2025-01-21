@@ -1,10 +1,10 @@
 package com.meself.usuarios.meself_usuarios.services;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meself.usuarios.meself_usuarios.DTO.UsuarioDTO;
+import com.meself.usuarios.meself_usuarios.basic.UsuarioUtils;
 import com.meself.usuarios.meself_usuarios.basic.Utils;
 import com.meself.usuarios.meself_usuarios.models.UsuarioEntity;
 import com.meself.usuarios.meself_usuarios.repositories.UsuarioRepository;
@@ -17,6 +17,9 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
     @Autowired
     Utils utils;
+
+    @Autowired
+    UsuarioUtils usuarioUtils;
 
     @Override
     public UsuarioEntity getUsuarioEntityByUsuarioId(Long usuarioId) {
@@ -36,6 +39,9 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
         utils.isObjectInvalid(usuarioDTO);
 
+        usuarioUtils.esUsuarioEntityInvalido(usuarioDTO);
+
+
         UsuarioEntity usuarioEntity = UsuarioEntity.builder()
         .nombre(usuarioDTO.getNombre())
         .apellidoPaterno(usuarioDTO.getApellidoPaterno())
@@ -50,4 +56,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
        return usuarioRepository.save(usuarioEntity);
     }
 
+
+
 }
+
+

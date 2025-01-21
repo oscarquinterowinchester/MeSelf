@@ -13,7 +13,7 @@ spring:
     password: Soluciones01
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
 # Configuracion para conectarlo con eureka
