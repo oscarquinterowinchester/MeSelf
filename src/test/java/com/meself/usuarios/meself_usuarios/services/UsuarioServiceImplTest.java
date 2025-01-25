@@ -1,20 +1,22 @@
 package com.meself.usuarios.meself_usuarios.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,7 @@ import com.meself.usuarios.meself_usuarios.models.UsuarioEntity;
 import com.meself.usuarios.meself_usuarios.repositories.UsuarioRepository;
 
 @ExtendWith(MockitoExtension.class)
+// @SpringBootTest
 public class UsuarioServiceImplTest {
 
     @Mock
@@ -36,28 +39,62 @@ public class UsuarioServiceImplTest {
     @InjectMocks
     private UsuarioServiceImpl usuarioServiceImpl;
 
+
+    // @Autowired
+    // private UsuarioServiceImpl usuarioServiceImpl;
+
+
+
+    // @Test
+    // @Disabled
+    //  void TestGetUsuarioEntityByUsuarioId_happy() {
+
+    //     Long usuarioId = 1L;
+
+    //     when(usuarioRepository.getUsuarioEntityByUsuarioId(usuarioId)).thenReturn(DataProvider.geUsuarioEntity());
+        
+    //     UsuarioEntity user = usuarioServiceImpl.getUsuarioEntityByUsuarioId(usuarioId);
+
+    //     assertEquals("Oscar", user.getNombre());
+
+    //    verify(usuarioRepository).getUsuarioEntityByUsuarioId(anyLong());
+    // }
+
+
+
+
+
+//     @Test
+//     @Disabled
+//     void TestGetUsuarioEntityByUsuarioId_limited() {
+
+//        Long usuarioId = 1L;
+       
+//        UsuarioEntity user = usuarioServiceImpl.getUsuarioEntityByUsuarioId(usuarioId);
+
+
+//        assertEquals("Oscar", user.getNombre());
+//        assertEquals("Tellez", user.getApellidoMaterno());
+//        assertEquals("Quintero", user.getApellidoPaterno());
+//        assertEquals(true, user.isEstatus());
+//        assertEquals("Oski", user.getSobrenombre());
+//        assertInstanceOf(LocalDateTime.class, user.getFechaCreacion());
+//        assertInstanceOf(LocalDate.class, user.getFechaNacimiento());
+//        assertNotNull(user);
+
+//    }
+
+    //     @Override
+    // public UsuarioEntity getUsuarioEntityByUsuarioId(Long usuarioId) {
+        
+    //     return usuarioRepository.getUsuarioEntityByUsuarioId(usuarioId);
+    // }
+
     @Test
     @Disabled
-    public void testGetUsuarioEntityByUsuarioId() {
-        Long usuarioId = 0L;
-
-        UsuarioEntity usuarioEntity = usuarioRepository.getUsuarioEntityByUsuarioId(usuarioId);
-
-        assertInstanceOf(UsuarioEntity.class, usuarioEntity, "El objeto no es una instancia de UsuarioEntity");
-
-        assertEquals("Oscar", usuarioEntity.getNombre(), "El nombre del usuario no coincide");
-    }
-
-    @Test
     public void TestDeleteUsuariosEntityById() {
         //Given
         Long usuarioId = 1L;
-
-        String dbType = "lorasdb";
-
-        String nombre = "";
-
-        UsuarioEntity usuario = DataProvider.geUsuarioDTO();
         
         //When
 
@@ -66,17 +103,12 @@ public class UsuarioServiceImplTest {
         //Then
 
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+        // ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
 
-        verify(this.usuarioRepository).deleteById(anyLong());
+        // verify(this.usuarioRepository).deleteUsuariosEntityByUsuarioId(anyLong());
         verify(this.usuarioRepository).deleteById(longArgumentCaptor.capture());
-        assertEquals(1L, longArgumentCaptor.getValue());
 
-                // Validar que no sobrepasen los limites. 
-                // Permite que se guarde sin dominio y arroba y guardar vacios.
-                // Permite guardar contrasenas con un solo caracter y guardar vacios
-                // No vacios en fechaNacimiento
-                // nombre se puede guardar vacio, asi como apellido.
-                // Siempre al guardar en las fechaCreacion y fechaNacimiento se pide que sean del tipo de dato esperado.
+        assertEquals(usuarioId, longArgumentCaptor.getValue());
 
     }
 

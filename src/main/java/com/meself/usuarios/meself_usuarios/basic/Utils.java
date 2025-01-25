@@ -16,8 +16,13 @@ public class Utils {
     }
 
     public boolean isInvalidLenght_str(String valor, int max_size,int min_size){
-           
+        
+        if(isObjectInvalid(valor)){
+            return true;
+        }
+
         if(valor.trim().length() > max_size || valor.trim().length()  < min_size){
+            System.out.println(valor.length() + "max: " + max_size + " min: " + min_size);
             return true;
         }
         
@@ -25,6 +30,10 @@ public class Utils {
     }
 
     public boolean isInvalidEmail(String email){
+        
+        if(isObjectInvalid(email)){
+            return true;
+        }
 
         return !email.contains("@") || !email.contains(".");
     }

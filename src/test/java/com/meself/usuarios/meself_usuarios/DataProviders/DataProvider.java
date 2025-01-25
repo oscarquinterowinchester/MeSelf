@@ -10,7 +10,7 @@ public class DataProvider {
 
 
 
-    public static UsuarioEntity geUsuarioDTO(){
+    public static UsuarioEntity geUsuarioEntity(){
 
         return UsuarioEntity.builder()
                 .nombre("Oscar")
@@ -21,6 +21,26 @@ public class DataProvider {
                 .contrasena("1234567")
                 .fechaCreacion(LocalDateTime.now())
                 .build();
+    }
+
+    public static UsuarioDTO getUsuarioDTO(){
+
+
+        return UsuarioDTO.builder()
+        .nombre("Oscar")
+        .apellidoPaterno("Quintero")
+        .apellidoMaterno("Tellez")
+        .email("oscar123456@gmail.com")
+        .fechaNacimiento(LocalDate.now())
+        .contrasena("1234567")
+        .build();
+    
+
+    }
+
+    public static String lenght45(){
+
+        return "123456789012345678901234567890123456789012345";
     }
 
 }

@@ -39,12 +39,12 @@ public class UsuarioUtils {
 return false;
 }
 
-private void arrojarInvalidUser(String mensajeError){
+public void arrojarInvalidUser(String mensajeError){
 
     throw new InvalidUserException(mensajeError);
 }
 
-private boolean esFechaInvalida(UsuarioDTO usuarioDTO) {
+public boolean esFechaInvalida(UsuarioDTO usuarioDTO) {
     LocalDate fechaNac = usuarioDTO.getFechaNacimiento();
 
     // Verifica si la fecha es nula
@@ -67,7 +67,7 @@ private boolean esFechaInvalida(UsuarioDTO usuarioDTO) {
 }
 
 
-private boolean esEmailInvalido(UsuarioDTO usuarioDTO){
+public boolean esEmailInvalido(UsuarioDTO usuarioDTO){
 
     String email = usuarioDTO.getEmail();
 
@@ -88,7 +88,7 @@ private boolean esEmailInvalido(UsuarioDTO usuarioDTO){
 
 }
 
-private boolean esContrasenaInvalida(UsuarioDTO usuarioDTO){
+public boolean esContrasenaInvalida(UsuarioDTO usuarioDTO){
 
     String contrasena = usuarioDTO.getContrasena();
 
@@ -106,7 +106,7 @@ private boolean esContrasenaInvalida(UsuarioDTO usuarioDTO){
 
 }
 
-private boolean esNombreInvalido(UsuarioDTO usuarioDTO){
+public boolean esNombreInvalido(UsuarioDTO usuarioDTO){
 
     String nombre = usuarioDTO.getNombre();
     String apellidoPaterno = usuarioDTO.getApellidoPaterno();

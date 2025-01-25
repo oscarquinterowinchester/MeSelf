@@ -1,154 +1,114 @@
 package com.meself.usuarios.meself_usuarios.basic;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.meself.usuarios.meself_usuarios.DTO.UsuarioDTO;
-import com.meself.usuarios.meself_usuarios.Exceptions.InvalidUserException;
+import com.meself.usuarios.meself_usuarios.DataProviders.DataProvider;
 
-@ExtendWith(MockitoExtension.class)
+
+
+// @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class TestUsuarioUtils {
 
 
-    @Mock
+//@Mock
+    @Autowired
     Utils utils;
 
-    @InjectMocks
+   // @InjectMocks
+   @Autowired
     UsuarioUtils usuarioUtils;
 
-    public boolean esUsuarioEntityInvalido(UsuarioDTO usuarioDTO){
-
-
-    if(esNombreInvalido(usuarioDTO)){
-
-        return true;
-    }
-    if(esEmailInvalido(usuarioDTO)){
-
-        return true;
-    }
-    if(esContrasenaInvalida(usuarioDTO)){
-
-        return true;
-    }
-    if(esFechaInvalida(usuarioDTO)){
-
-        return true;
-    }
-
-return false;
-}
-
-private void arrojarInvalidUser(String mensajeError){
-
-    throw new InvalidUserException(mensajeError);
-}
-
-private boolean esFechaInvalida(UsuarioDTO usuarioDTO) {
-    LocalDate fechaNac = usuarioDTO.getFechaNacimiento();
-
-    // Verifica si la fecha es nula
-    if (fechaNac == null) {
-        throw new InvalidUserException("Fecha de nacimiento: esta vacio o es nulo");
-    }
-
-    // Verifica si la fecha está en el futuro
-    if (fechaNac.isAfter(LocalDate.now())) {
-        throw new InvalidUserException("Fecha de nacimiento: no puede estar en el futuro.");
-    }
-
-    // Verifica si la fecha es demasiado antigua (por ejemplo, antes de 1900)
-    if (fechaNac.isBefore(LocalDate.of(1900, 1, 1))) {
-        throw new InvalidUserException("Fecha de nacimiento: no puede ser anterior al año 1900.");
-    }
-
-    // Si todas las validaciones son correctas
-    return false;
-}
-
-
-private boolean esEmailInvalido(UsuarioDTO usuarioDTO){
-
-    String email = usuarioDTO.getEmail();
-
-    if(utils.isObjectInvalid(email)){
-
-        arrojarInvalidUser("Correo: esta vacio o es nulo");
-    }
-
-    if(utils.isInvalidLenght_str(email,80,8)){
-
-        arrojarInvalidUser("Correo: longitud invalida");
-    }
-    if(utils.isInvalidEmail(email)){
-        arrojarInvalidUser("Correo: dominio invalido");
-    }
-
-    return false;
-
-}
-
-private boolean esContrasenaInvalida(UsuarioDTO usuarioDTO){
-
-    String contrasena = usuarioDTO.getContrasena();
-
-    if(utils.isObjectInvalid(contrasena)){
-
-        arrojarInvalidUser("Contrasena: esta vacio o es nulo");
-    }
-
-    if(utils.isInvalidLenght_str(contrasena,60,1)){
-
-        arrojarInvalidUser("Contrasena: longitud invalida");
-    }
-
-    return false;
-
-}
-
-
-void TestEsNombreInvalido(){
-
-
-    
-
-}
 
 
 @Test
 @Disabled
-private boolean esNombreInvalido(UsuarioDTO usuarioDTO){
+void TestEsNombreInvalido_happy(){
 
-    String nombre = usuarioDTO.getNombre();
-    String apellidoPaterno = usuarioDTO.getApellidoPaterno();
+    // Given
+    UsuarioDTO usuarioDTO = DataProvider.getUsuarioDTO();
+    
 
-    if(utils.isObjectInvalid(nombre)){
+   // usuarioDTO.setNombre(null);
 
-        arrojarInvalidUser("Nombre: esta vacio o es nulo");
-    }
-    if(utils.isObjectInvalid(apellidoPaterno) ){
-        arrojarInvalidUser("Apellido paterno: esta vacio o es nulo");
-    }
+    // when
+    boolean esNombreInvalido = usuarioUtils.esNombreInvalido(usuarioDTO);
 
-    if(utils.isInvalidLenght_str(nombre,45,1)){
+   // assertThrows(InvalidUserException.class, usuarioUtils.esNombreInvalido(usuarioDTO));
 
-        arrojarInvalidUser("Nombre: longitud invalida");
-    }
-    if(utils.isInvalidLenght_str(apellidoPaterno, 45, 1)){
-        arrojarInvalidUser("Apellido paterno: longitud invalida");
-    }
-
-    return false;
+    assertFalse(esNombreInvalido);
+    assertNotNull(esNombreInvalido);
 
 }
+
+@Test
+@Disabled
+void TestEsNombreInvalido_limited(){
+
+    String nombre = DataProvider.lenght45();
+
+   // System.out.println(nombre.length());
+
+    // Given
+    UsuarioDTO usuarioDTO = DataProvider.getUsuarioDTO();
+
+    usuarioDTO.setApellidoPaterno(nombre);
+
+    // when
+    boolean esNombreInvalido = usuarioUtils.esNombreInvalido(usuarioDTO);
+
+   // assertThrows(InvalidUserException.class, usuarioUtils.esNombreInvalido(usuarioDTO));
+
+    assertNotNull(esNombreInvalido);
+    assertInstanceOf(Boolean.class, usuarioUtils.esNombreInvalido(usuarioDTO));
+    assertTrue(esNombreInvalido);
+
+}
+
+@Test
+    public void esUsuarioEntityInvalido(){
+
+        UsuarioDTO usuarioDTO = DataProvider.getUsuarioDTO();
+
+        usuarioDTO.setNombre("1");
+
+        usuarioUtils.esUsuarioEntityInvalido(usuarioDTO);
+
+}
+
+@Test
+    public void esUsuarioEntityInvalido_Email(){
+
+        UsuarioDTO usuarioDTO = DataProvider.getUsuarioDTO();
+
+        usuarioDTO.setEmail("1@.com");
+
+        usuarioUtils.esUsuarioEntityInvalido(usuarioDTO);
+
+}
+
+@Test
+    public void esUsuarioEntityInvalido_Pass(){
+
+        UsuarioDTO usuarioDTO = DataProvider.getUsuarioDTO();
+
+        usuarioDTO.setContrasena(DataProvider.lenght45()+DataProvider.lenght45()+DataProvider.lenght45());
+
+        usuarioUtils.esUsuarioEntityInvalido(usuarioDTO);
+
+}
+
+
 
 }
