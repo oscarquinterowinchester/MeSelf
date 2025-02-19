@@ -36,6 +36,12 @@ Utils utils;
         return ResponseEntity.ok(usuarioService.createUsuarioEntity(usuarioDTO));
     }
 
+@GetMapping("/hola")
+public String hola() {
+    System.out.println("Se está llamando al endpoint /hola");
+    return "hola!!";
+}
+
     @GetMapping("/getUsuario/{usuarioId}")
     public ResponseEntity<?> getUserById(@PathVariable Long usuarioId){
 
